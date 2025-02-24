@@ -1,0 +1,223 @@
+import java.util.Scanner;
+
+class Player {
+    protected final String name;
+    protected final int age;
+    
+    public Player(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+    
+    public void displayPlayerInfo() {
+        System.out.println("Player Name: " + name);
+        System.out.println("Age: " + age);
+    }
+}
+
+class CricketPlayer extends Player {
+    protected String type;
+    protected int hundreds;
+    protected int wickets;
+    
+    public CricketPlayer(String name, int age, String type, int hundreds, int wickets) {
+        super(name, age);
+        this.type = type;
+        this.hundreds = hundreds;
+        this.wickets = wickets;
+    }
+    
+    public void display() {
+        super.displayPlayerInfo();
+        System.out.println("Type: " + type);
+        System.out.println("Hundreds: " + hundreds);
+        System.out.println("Wickets: " + wickets);
+    }
+    
+    public void recommendation() {
+        if (hundreds >= 5 || wickets >= 100) {
+            System.out.println(name + " is an experienced and talented player.");
+        } else {
+            System.out.println(name + " is still developing.");
+        }
+    }
+}
+
+class TestCricketer extends CricketPlayer {
+    private final int testCaps;
+    private final double testAverage;
+    
+    public TestCricketer(String name, int age, String type, int hundreds, int wickets, int testCaps, double testAverage) {
+        super(name, age, type, hundreds, wickets);
+        this.testCaps = testCaps;
+        this.testAverage = testAverage;
+    }
+    
+    @Override
+    public void display() {
+        super.display();
+        System.out.println("Test Caps: " + testCaps);
+        System.out.println("Test Average: " + testAverage);
+    }
+}
+
+class T20Cricketer extends CricketPlayer {
+    private final int strikeRate;
+    private final int t20Matches;
+    
+    public T20Cricketer(String name, int age, String type, int hundreds, int wickets, int strikeRate, int t20Matches) {
+        super(name, age, type, hundreds, wickets);
+        this.strikeRate = strikeRate;
+        this.t20Matches = t20Matches;
+    }
+    
+    @Override
+    public void display() {
+        super.display();
+        System.out.println("Strike Rate: " + strikeRate);
+        System.out.println("T20 Matches: " + t20Matches);
+    }
+}
+
+class ODICricketer extends CricketPlayer {
+    private final int odiCaps;
+    private final double economyRate;
+    
+    public ODICricketer(String name, int age, String type, int hundreds, int wickets, int odiCaps, double economyRate) {
+        super(name, age, type, hundreds, wickets);
+        this.odiCaps = odiCaps;
+        this.economyRate = economyRate;
+    }
+    
+    @Override
+    public void display() {
+        super.display();
+        System.out.println("ODI Caps: " + odiCaps);
+        System.out.println("Economy Rate: " + economyRate);
+    }
+}
+
+public class Cricketer2 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        CricketPlayer[] players = new CricketPlayer[10]; // Array to store players
+        int playerCount = 0;
+        int choice;
+        
+        do {
+            System.out.println("\n=== Cricket Player Management System ===");
+            System.out.println("1. Add Test Cricketer");
+            System.out.println("2. Add T20 Cricketer");
+            System.out.println("3. Add ODI Cricketer");
+            System.out.println("4. Display All Players");
+            System.out.println("5. Exit");
+            System.out.print("Enter your choice: ");
+            choice = sc.nextInt();
+            
+            switch (choice) {
+                case 1:
+                    if (playerCount < players.length) {
+                        System.out.println("\nEnter Test Cricketer Details:");
+                        sc.nextLine();
+                        System.out.print("Name: ");
+                        String name = sc.nextLine();
+                        System.out.print("Age: ");
+                        int age = sc.nextInt();
+                        sc.nextLine();
+                        System.out.print("Type (Batsman/Bowler/Allrounder): ");
+                        String type = sc.nextLine();
+                        System.out.print("Hundreds: ");
+                        int hundreds = sc.nextInt();
+                        System.out.print("Wickets: ");
+                        int wickets = sc.nextInt();
+                        System.out.print("Test Caps: ");
+                        int testCaps = sc.nextInt();
+                        System.out.print("Test Average: ");
+                        double testAvg = sc.nextDouble();
+                        
+                        players[playerCount++] = new TestCricketer(name, age, type, hundreds, wickets, testCaps, testAvg);
+                        System.out.println("Test Cricketer added successfully!");
+                    } else {
+                        System.out.println("Maximum player limit reached!");
+                    }
+                    break;
+                    
+                case 2:
+                    if (playerCount < players.length) {
+                        System.out.println("\nEnter T20 Cricketer Details:");
+                        sc.nextLine();
+                        System.out.print("Name: ");
+                        String name = sc.nextLine();
+                        System.out.print("Age: ");
+                        int age = sc.nextInt();
+                        sc.nextLine();
+                        System.out.print("Type (Batsman/Bowler/Allrounder): ");
+                        String type = sc.nextLine();
+                        System.out.print("Hundreds: ");
+                        int hundreds = sc.nextInt();
+                        System.out.print("Wickets: ");
+                        int wickets = sc.nextInt();
+                        System.out.print("Strike Rate: ");
+                        int strikeRate = sc.nextInt();
+                        System.out.print("T20 Matches: ");
+                        int t20Matches = sc.nextInt();
+                        
+                        players[playerCount++] = new T20Cricketer(name, age, type, hundreds, wickets, strikeRate, t20Matches);
+                        System.out.println("T20 Cricketer added successfully!");
+                    } else {
+                        System.out.println("Maximum player limit reached!");
+                    }
+                    break;
+                    
+                case 3:
+                    if (playerCount < players.length) {
+                        System.out.println("\nEnter ODI Cricketer Details:");
+                        sc.nextLine();
+                        System.out.print("Name: ");
+                        String name = sc.nextLine();
+                        System.out.print("Age: ");
+                        int age = sc.nextInt();
+                        sc.nextLine();
+                        System.out.print("Type (Batsman/Bowler/Allrounder): ");
+                        String type = sc.nextLine();
+                        System.out.print("Hundreds: ");
+                        int hundreds = sc.nextInt();
+                        System.out.print("Wickets: ");
+                        int wickets = sc.nextInt();
+                        System.out.print("ODI Caps: ");
+                        int odiCaps = sc.nextInt();
+                        System.out.print("Economy Rate: ");
+                        double economyRate = sc.nextDouble();
+                        
+                        players[playerCount++] = new ODICricketer(name, age, type, hundreds, wickets, odiCaps, economyRate);
+                        System.out.println("ODI Cricketer added successfully!");
+                    } else {
+                        System.out.println("Maximum player limit reached!");
+                    }
+                    break;
+                    
+                case 4:
+                    if (playerCount > 0) {
+                        System.out.println("\n=== All Players ===");
+                        for (int i = 0; i < playerCount; i++) {
+                            System.out.println("\nPlayer " + (i + 1) + " Details:");
+                            players[i].display();
+                            players[i].recommendation();
+                        }
+                    } else {
+                        System.out.println("No players added yet!");
+                    }
+                    break;
+                    
+                case 5:
+                    System.out.println("Thank you for using Cricket Player Management System!");
+                    break;
+                    
+                default:
+                    System.out.println("Invalid choice! Please try again.");
+            }
+        } while (choice != 5);
+        
+        sc.close();
+    }
+}
