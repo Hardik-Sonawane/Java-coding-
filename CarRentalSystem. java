@@ -1,0 +1,135 @@
+import java.util.Scanner;
+
+// Interface for objects that can insert data
+interface Insertable {
+    void insertData();
+}
+
+// Interface for objects that can display their details
+interface Displayable {
+    void display();
+}
+
+// Interface for objects that can calculate rental cost
+interface RentCalculatable {
+    double calculateRent(int days);
+}
+
+// Car class implementing the interfaces
+class Car implements Insertable, Displayable, RentCalculatable {
+    String make;
+    String model;
+    int year;
+    double dailyRate; // Daily rental rate
+
+    Scanner sc = new Scanner(System.in);
+
+    // Implementation of Insertable interface
+    @Override
+    public void insertData() {
+        System.out.println("Enter Car Details:");
+        System.out.print("Make: ");
+        make = sc.nextLine();
+
+        System.out.print("Model: ");
+        model = sc.nextLine();
+
+        System.out.print("Year: ");
+        year = sc.nextInt();
+
+        System.out.print("Daily Rental Rate: ");
+        dailyRate = sc.nextDouble();
+        sc.nextLine(); // Consume the newline character
+    }
+
+    // Implementation of Displayable interface
+    @Override
+    public void display() {
+        System.out.println("\nCar Details:");
+        System.out.println("Make: " + make);
+        System.out.println("Model: " + model);
+        System.out.println("Year: " + year);
+        System.out.println("Daily Rental Rate: $" + dailyRate);
+    }
+
+    // Implementation of RentCalculatable interface
+    @Override
+    public double calculateRent(int days) {
+        return dailyRate * days;
+    }
+}
+
+// Main class to execute the code
+public class CarRentalSystem {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // Ask the user how many cars they want to add
+        System.out.print("How many cars do you want to add? ");
+        int numCars = sc.nextInt();
+        sc.nextLine(); // Consume the newline character
+
+        // Array to store cars
+        Car[] cars = new Car[numCars];
+
+        // Insert details for each car
+        for (int i = 0; i < numCars; i++) {
+            System.out.println("\nEnter details for Car " + (i + 1) + ":");
+            cars[i] = new Car();
+            cars[i].insertData();
+        }
+
+        // Menu-driven operations for each car
+        int carIndex;
+        do {
+            System.out.print("\nEnter the car number (1 to " + numCars + ") to perform operations (0 to exit): ");
+            carIndex = sc.nextInt();
+            sc.nextLine(); // Consume the newline character
+
+            if (carIndex >= 1 && carIndex <= numCars) {
+                Car car = cars[carIndex - 1]; // Get the selected car
+                int choice;
+                boolean back = false;
+
+                do {
+                    // Display menu for the selected car
+                    System.out.println("\n--- Operations for Car " + carIndex + " ---");
+                    System.out.println("1. Display Car Details");
+                    System.out.println("2. Calculate Rental Cost");
+                    System.out.println("3. Go Back to Car Selection");
+                    System.out.print("Enter your choice: ");
+                    choice = sc.nextInt();
+                    sc.nextLine(); // Consume the newline character
+
+                    switch (choice) {
+                        case 1:
+                            // Display car details
+                            car.display();
+                            break;
+
+                        case 2:
+                            // Calculate rental cost
+                            System.out.print("Enter the number of rental days: ");
+                            int days = sc.nextInt();
+                            double rent = car.calculateRent(days);
+                            System.out.println("Total Rental Cost for " + days + " days: $" + rent);
+                            break;
+
+                        case 3:
+                            // Go back to car selection
+                            back = true;
+                            break;
+
+                        default:
+                            System.out.println("Invalid choice. Please try again.");
+                    }
+                } while (!back); // Repeat until the user chooses to go back
+            } else if (carIndex != 0) {
+                System.out.println("Invalid car number. Please try again.");
+            }
+        } while (carIndex != 0); // Repeat until the user chooses to exit
+
+        System.out.println("Exiting the program. Thank you!");
+        sc.close(); // Close the scanner
+    }
+}
