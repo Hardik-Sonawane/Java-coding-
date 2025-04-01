@@ -1,114 +1,126 @@
 import java.util.Scanner;
 
 public class CricketPlayerException extends Exception {
-    public CricketPlayerException(String msg) {
-        super(msg);
+    public CricketPlayerException(String msg) { 
+        super(msg); 
     }
 
     int checkDebutYear(int debutYear) throws Exception {
         int experience = 2024 - debutYear;
-        int calc = debutYear / experience;  // Potential division error if debutYear is recent
-        return calc;
+        if (experience <= 0) {
+            throw new Exception("Invalid debut year! Player might be too young.");
+        }
+        return experience;
     }
 
     void checkEligibility(int runs, int matches) throws CricketPlayerException {
         if (runs < 1000 || matches < 20) {
             throw new CricketPlayerException("Player is not eligible for international selection");
         }
-        System.out.println("Player meets the basic eligibility criteria");
+        System.out.println("You are clear with basic criteria");
     }
 
     public static void main(String args[]) {
         Scanner ip = new Scanner(System.in);
         int ch;
 
-        while (true) {  // Keep prompting until user exits
-            System.out.println("\n1. Insert Cricket Player Details");
-            System.out.println("2. Check Player Career Stats");
-            System.out.println("3. Evaluate Player Performance");
+        while (true) {
+            System.out.println("\n1. Insert Player detail");
+            System.out.println("2. Check Career Stats");
+            System.out.println("3. Check Eligibility");
             System.out.println("4. Exit");
-            System.out.print("Enter your choice: ");
+            System.out.print("Enter choice: ");
 
-            // Handle non-integer input to prevent crash
-            if (!ip.hasNextInt()) {
-                System.out.println("Invalid input! Please enter a number between 1 and 4.");
-                ip.next();  // Consume invalid input
-                continue;
+            while (!ip.hasNextInt()) {
+                System.out.println("Invalid input! Enter a number (1-4).");
+                ip.next();
             }
             ch = ip.nextInt();
 
             switch (ch) {
                 case 1:
-                    System.out.println("Enter Player Name:");
+                    System.out.println("\nInsert Player detail");
+                    System.out.println("Enter player name:");
                     String name = ip.next();
-                    try {
-                        System.out.println("Enter Player Age:");
-                        int age = ip.nextInt();
+
+                    int age;
+                    while (true) {
+                        System.out.println("Enter player age:");
+                        if (!ip.hasNextInt()) {
+                            System.out.println("Invalid input! Age must be a number.");
+                            ip.next();
+                            continue;
+                        }
+                        age = ip.nextInt();
                         if (age < 0) {
-                            throw new Exception("Age cannot be negative");
-                        }
-
-                        System.out.println("Enter Total Runs Scored:");
-                        int runs = ip.nextInt();
-                        if (runs < 0) {
-                            throw new Exception("Runs cannot be negative");
-                        }
-
-                        System.out.println("Enter Player ID (Min 4 Digits)");
-                        System.out.println("Enter the size of your ID:");
-                        int size = ip.nextInt();
-                        if (size != 4) {
-                            throw new ArrayIndexOutOfBoundsException("ID size must be exactly 4 digits");
-                        }
-                        int id[] = new int[4];
-                        for (int i = 0; i < size; i++) {
-                            id[i] = ip.nextInt();
-                        }
-                    } catch (ArrayIndexOutOfBoundsException e) {
-                        System.out.println(e.getMessage());
-                    } catch (Exception e) {
-                        System.out.println(e.getMessage());
-                    } finally {
-                        System.out.println("\nEnsure all details are valid\n");
+                            System.out.println("Age cannot be negative");
+                        } else break;
                     }
+
+                    System.out.println("Make sure that everything is valid credentials");
                     break;
 
                 case 2:
-                    System.out.println("Enter Player Debut Year:");
-                    int debutYear = ip.nextInt();
-                    try {
-                        CricketPlayerException obj = new CricketPlayerException("Career Validation:");
-                        obj.checkDebutYear(debutYear);
-                        System.out.println("Experience Level: " + obj.checkDebutYear(debutYear));
-                    } catch (Exception e) {
-                        System.out.println("Invalid debut year! Player might be too young.");
-                    } finally {
-                        System.out.println("Ensure all details are valid");
+                    System.out.println("\nCheck Career Stats");
+                    int debutYear;
+                    while (true) {
+                        System.out.println("Enter player debut year:");
+                        if (!ip.hasNextInt()) {
+                            System.out.println("Invalid input! Enter a valid year.");
+                            ip.next();
+                            continue;
+                        }
+                        debutYear = ip.nextInt();
+                        try {
+                            CricketPlayerException obj = new CricketPlayerException("Career Validation:");
+                            System.out.println("Your experience code: " + obj.checkDebutYear(debutYear));
+                            break;
+                        } catch (Exception e) {
+                            System.out.println(e.getMessage());
+                        }
                     }
+                    System.out.println("Make sure that everything is valid credentials");
                     break;
 
                 case 3:
-                    System.out.println("Enter Total Runs:");
-                    int totalRuns = ip.nextInt();
-                    System.out.println("Enter Total Matches Played:");
-                    int matches = ip.nextInt();
+                    System.out.println("\nCheck Eligibility");
+                    int totalRuns, matches;
+                    while (true) {
+                        System.out.println("Enter total runs:");
+                        if (!ip.hasNextInt()) {
+                            System.out.println("Invalid input! Runs must be a number.");
+                            ip.next();
+                            continue;
+                        }
+                        totalRuns = ip.nextInt();
+                        break;
+                    }
+                    while (true) {
+                        System.out.println("Enter total matches played:");
+                        if (!ip.hasNextInt()) {
+                            System.out.println("Invalid input! Matches must be a number.");
+                            ip.next();
+                            continue;
+                        }
+                        matches = ip.nextInt();
+                        break;
+                    }
 
                     try {
                         CricketPlayerException obj = new CricketPlayerException("Eligibility Check");
                         obj.checkEligibility(totalRuns, matches);
                     } catch (CricketPlayerException e) {
                         System.out.println(e.getMessage());
-                    } finally {
-                        System.out.println("Ensure all details are valid");
                     }
+                    System.out.println("Make sure that everything is valid credentials");
                     break;
 
                 case 4:
                     System.out.println("Exiting...");
-                    return;  // Exit the program
+                    return;
 
                 default:
-                    System.out.println("Invalid choice! Please enter a number between 1 and 4.");
+                    System.out.println("Invalid choice! Enter 1-4.");
             }
         }
     }
